@@ -1,6 +1,8 @@
 package it.prova.myebay.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,6 +37,10 @@ public class Annuncio {
 	@JoinColumn(name = "utente_id", nullable = false)
 	private Utente utente;
 
+	@ManyToMany
+	@JoinTable(name = "annuncio_categoria", joinColumns = @JoinColumn(name = "annuncio_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "ID"))
+	private Set<Categoria> categorie = new HashSet<>(0);
+	
 	public Annuncio() {
 		super();
 	}
