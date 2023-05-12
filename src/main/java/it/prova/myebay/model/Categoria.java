@@ -23,13 +23,19 @@ public class Categoria {
 	@Column(name = "codice")
 	private String codice;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "utente_id", nullable = false)
-	private Utente utente;
 
 	public Categoria() {
 		super();
 	}
+	
+	
+
+	public Categoria(Long id) {
+		super();
+		this.id = id;
+	}
+
+
 
 	public Categoria(String descrizione, String codice) {
 		super();
@@ -61,12 +67,6 @@ public class Categoria {
 		this.codice = codice;
 	}
 
-	public Utente getUtente() {
-		return utente;
-	}
-
-	public void setUtente(Utente utente) {
-		this.utente = utente;
-	}
+	
 
 }

@@ -1,13 +1,19 @@
 package it.prova.myebay.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import it.prova.myebay.model.Ruolo;
 import it.prova.myebay.model.StatoUtente;
 import it.prova.myebay.model.Utente;
 import it.prova.myebay.repository.utente.UtenteRepository;
@@ -17,7 +23,7 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
 	private UtenteRepository repository;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -60,6 +66,7 @@ public class UtenteServiceImpl implements UtenteService {
 		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
 		utenteInstance.setDateCreated(LocalDate.now());
 		repository.save(utenteInstance);
+
 	}
 
 	@Override
@@ -86,7 +93,6 @@ public class UtenteServiceImpl implements UtenteService {
 		return repository.findByUsernameAndPassword(username, password);
 	}
 
-	
 	@Override
 	@Transactional
 	public void changeUserAbilitation(Long utenteInstanceId) {
@@ -101,14 +107,45 @@ public class UtenteServiceImpl implements UtenteService {
 		else if (utenteInstance.getStato().equals(StatoUtente.DISABILITATO))
 			utenteInstance.setStato(StatoUtente.ATTIVO);
 	}
-	
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public Utente findByUsername(String username) {
 		return repository.findByUsername(username).orElse(null);
 	}
 
-	
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> ruoliUtenteSession() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+
+			Utente utenteInstance = repository.findByUsername(auth.getName()).orElse(null);
+			if (utenteInstance == null) {
+				return new ArrayList<String>();
+			}
+
+			return utenteInstance.getRuoli().stream().map(ruolo -> ruolo.getCodice()).collect(Collectors.toList());
+		}
+		return null;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isAutenticato() {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+
+			Utente utenteInstance = repository.findByUsername(auth.getName()).orElse(null);
+			if (utenteInstance == null) {
+				return false;
+			}
+
+			return utenteInstance.getRuoli().size() > 0;
+
+		}
+		return false;
+	}
 
 }

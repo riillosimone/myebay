@@ -36,13 +36,34 @@ public class Annuncio {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "utente_id", nullable = false)
 	private Utente utente;
+	
 
 	@ManyToMany
 	@JoinTable(name = "annuncio_categoria", joinColumns = @JoinColumn(name = "annuncio_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "ID"))
 	private Set<Categoria> categorie = new HashSet<>(0);
-	
+
+
+	public Set<Categoria> getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(Set<Categoria> categorie) {
+		this.categorie = categorie;
+	}
+
+		
 	public Annuncio() {
 		super();
+	}
+
+	
+	public Annuncio(Long id, String testoAnnuncio, Double prezzo, LocalDate dataCreazione, Utente utente) {
+		super();
+		this.id = id;
+		this.testoAnnuncio = testoAnnuncio;
+		this.prezzo = prezzo;
+		this.dataCreazione = dataCreazione;
+		this.utente = utente;
 	}
 
 	public Annuncio(String testoAnnuncio, Double prezzo) {

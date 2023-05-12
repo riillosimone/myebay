@@ -1,7 +1,9 @@
 package it.prova.myebay.dto;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
@@ -39,6 +41,8 @@ public class UtenteDTO {
 	private StatoUtente stato;
 
 	private Long[] ruoliIds;
+	
+	private Set<AnnuncioDTO> annunciDTO = new HashSet<>();
 
 	public UtenteDTO() {
 	}
@@ -124,6 +128,15 @@ public class UtenteDTO {
 		this.ruoliIds = ruoliIds;
 	}
 	
+	
+	public Set<AnnuncioDTO> getAnnunciDTO() {
+		return annunciDTO;
+	}
+
+	public void setAnnunciDTO(Set<AnnuncioDTO> annunciDTO) {
+		this.annunciDTO = annunciDTO;
+	}
+
 	public boolean isAttivo() {
 		return this.stato != null && this.stato.equals(StatoUtente.ATTIVO);
 	}
