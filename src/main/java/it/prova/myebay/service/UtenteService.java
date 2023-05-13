@@ -30,6 +30,8 @@ public interface UtenteService {
 	
 	public List<String> ruoliUtenteSession();
 	
+	public void registrati(Utente utenteInstance);
+	
 	public boolean isAutenticato();
 	
 	

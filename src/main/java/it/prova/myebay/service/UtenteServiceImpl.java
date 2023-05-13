@@ -2,7 +2,9 @@ package it.prova.myebay.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import it.prova.myebay.model.Ruolo;
 import it.prova.myebay.model.StatoUtente;
 import it.prova.myebay.model.Utente;
+import it.prova.myebay.repository.ruolo.RuoloRepository;
 import it.prova.myebay.repository.utente.UtenteRepository;
 
 @Service
@@ -22,6 +26,9 @@ public class UtenteServiceImpl implements UtenteService {
 	@Autowired
 	private UtenteRepository repository;
 
+	@Autowired
+	private RuoloRepository ruoloRepository;
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -144,6 +151,18 @@ public class UtenteServiceImpl implements UtenteService {
 
 		}
 		return false;
+	}
+
+	@Override
+	@Transactional
+	public void registrati(Utente utenteInstance) {
+		utenteInstance.setStato(StatoUtente.CREATO);
+		Set<Ruolo> ruoliUtente = new HashSet<>();
+		ruoliUtente.add(ruoloRepository.findByDescrizioneAndCodice("Classic User", "ROLE_CLASSIC_USER"));
+		utenteInstance.setRuoli(ruoliUtente);
+		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
+		utenteInstance.setDateCreated(LocalDate.now());
+		repository.save(utenteInstance);
 	}
 
 }

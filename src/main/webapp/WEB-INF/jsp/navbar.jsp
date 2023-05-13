@@ -1,4 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <header>
   <!-- Fixed navbar -->
  <nav class="navbar navbar-expand-lg navbar-dark bg-primary" aria-label="Eighth navbar example">
@@ -34,16 +35,23 @@
 		   </sec:authorize>
         </ul>
       </div>
-      <sec:authorize access="isAuthenticated()">
       
-      
-       
-		    <div class="col-md text-end">   
+      <sec:authorize access="isAuthenticated()" var="isAutenticato"></sec:authorize>
+      <c:choose>
+   		<c:when test="${isAutenticato}"><div class="col-md text-end">   
 	         <p class="navbar-text">Utente: ${userInfo.username }(${userInfo.nome } ${userInfo.cognome })
     	 <a href="${pageContext.request.contextPath}/executeLogout">Logout</a></p>
-    	 </div>
+    	 </div></c:when>
+		   <c:otherwise><div class="col-md text-end">  <h6 class="navbar-text">
+		    	 <a href="${pageContext.request.contextPath}/login">Login</a></h6>
+		    	 </div>
+			</c:otherwise>
+		</c:choose>
+      
+       
+		    
 	    	
-    </sec:authorize>
+    
     </div>
   </nav>
   

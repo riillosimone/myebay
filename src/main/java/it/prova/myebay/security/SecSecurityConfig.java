@@ -49,7 +49,7 @@ public class SecSecurityConfig  extends WebSecurityConfigurerAdapter {
          .and()
          	.formLogin()
          	.loginPage("/login")
-         	//.defaultSuccessUrl("/home",true)
+         	.defaultSuccessUrl("/home",true)
          	//uso un custom handler perché voglio mettere delle user info in session
          	.successHandler(successHandler)
          	.failureUrl("/login?error=true")

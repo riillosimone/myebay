@@ -145,10 +145,10 @@ public class UtenteController {
 		if (result.hasErrors()) {
 			return "utente/insert";
 		}
-		utenteService.inserisciNuovo(utenteDTO.buildUtenteModel(true));
+		utenteService.registrati(utenteDTO.buildUtenteModel(true));
 
-		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
-		return "redirect:/home";
+		redirectAttrs.addFlashAttribute("infoMessage", "Sei stato registrato! Attendi che un admin abiliti il tuo account.");
+		return "redirect:/login";
 	}
 	
 }

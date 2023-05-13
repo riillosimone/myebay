@@ -28,7 +28,7 @@
 			        <h5>Lista dei risultati</h5> 
 			    </div>
 			    <div class='card-body'>
-			    	<a class="btn btn-primary " href="${pageContext.request.contextPath}/admin/insert">Add New</a>
+			    	<a class="btn btn-primary " href="${pageContext.request.contextPath}/utente/insert">Add New</a>
 			    	<a href="${pageContext.request.contextPath}/utente/search" class='btn btn-outline-secondary' >
 				            <i class='fa fa-chevron-left'></i> Torna alla Ricerca
 				        </a>
@@ -53,8 +53,8 @@
 										<td>${utenteItem.stato }</td>
 										<td>
 										
-											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/admin/show/${utenteItem.id }">Visualizza</a>
-											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/admin/edit/${utenteItem.id }">Edit</a>
+											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/utente/show/${utenteItem.id }">Visualizza</a>
+											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/utente/edit/${utenteItem.id }">Edit</a>
 											<a id="changeStatoLink_#_${utenteItem.id }" class="btn btn-outline-${utenteItem.isAttivo()?'danger':'success'} btn-sm link-for-modal" data-bs-toggle="modal" data-bs-target="#confirmOperationModal"  >${utenteItem.isAttivo()?'Disabilita':'Abilita'}</a>
 										</td>
 									</tr>
