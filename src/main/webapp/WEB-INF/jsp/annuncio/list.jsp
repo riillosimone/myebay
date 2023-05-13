@@ -11,7 +11,7 @@
 </head>
 <body class="d-flex flex-column h-100">
 	 <sec:authorize access="isAuthenticated()" var="isAutenticato"></sec:authorize>
-	 <sec:authentication property="principal.username" var="utenteInPagina"/>
+	 
 <c:choose>
    <c:when test="${isAutenticato}"><jsp:include page="../navbar.jsp"></jsp:include></c:when>
    <c:otherwise><jsp:include page="./navbar.jsp"></jsp:include>
@@ -67,8 +67,10 @@
 												<c:when test="${!isAutenticato}"><a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/annuncio/show/${annuncioItem.id }">Visualizza</a></c:when>
 												<c:otherwise>
 												<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/annuncio/show/${annuncioItem.id }">Visualizza</a>
+												<sec:authentication property="principal.username" var="utenteInPagina"/>
 												<c:if test="${annuncioItem.utente.username == utenteInPagina }">
 												<a class="btn btn-sm btn-outline-danger" href="${pageContext.request.contextPath}/annuncio/delete/${annuncioItem.id }">Delete</a>
+												<a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/annuncio/edit/${annuncioItem.id }">Edit</a>
 												</c:if>
 												</c:otherwise>
 										</c:choose>

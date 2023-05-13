@@ -80,6 +80,37 @@ public class Utente {
 		this.dateCreated = dateCreated;
 		this.stato = stato;
 	}
+	
+	
+
+	public Utente(Long id, String username, String password, String nome, String cognome, LocalDate dateCreated,
+			StatoUtente stato, Double creditoResiduo, Set<Annuncio> annunci) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
+		this.creditoResiduo = creditoResiduo;
+		this.annunci = annunci;
+	}
+
+	public Utente(Long id, String username, String password, String nome, String cognome, LocalDate dateCreated,
+			StatoUtente stato, Double creditoResiduo, Set<Annuncio> annunci, Set<Acquisto> acquisti) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
+		this.creditoResiduo = creditoResiduo;
+		this.annunci = annunci;
+		this.acquisti = acquisti;
+	}
 
 	public Long getId() {
 		return id;
@@ -135,6 +166,31 @@ public class Utente {
 
 	public void setDateCreated(LocalDate dateCreated) {
 		this.dateCreated = dateCreated;
+	}
+
+	
+	public Double getCreditoResiduo() {
+		return creditoResiduo;
+	}
+
+	public void setCreditoResiduo(Double creditoResiduo) {
+		this.creditoResiduo = creditoResiduo;
+	}
+
+	public Set<Annuncio> getAnnunci() {
+		return annunci;
+	}
+
+	public void setAnnunci(Set<Annuncio> annunci) {
+		this.annunci = annunci;
+	}
+
+	public Set<Acquisto> getAcquisti() {
+		return acquisti;
+	}
+
+	public void setAcquisti(Set<Acquisto> acquisti) {
+		this.acquisti = acquisti;
 	}
 
 	public StatoUtente getStato() {

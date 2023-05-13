@@ -1,4 +1,5 @@
 package it.prova.myebay.dto;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,18 +10,19 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import it.prova.myebay.model.Acquisto;
+import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Ruolo;
 import it.prova.myebay.model.StatoUtente;
 import it.prova.myebay.model.Utente;
 import it.prova.myebay.validation.ValidationNoPassword;
 import it.prova.myebay.validation.ValidationWithPassword;
 
-
 public class UtenteDTO {
 
 	private Long id;
 
-	@NotBlank(message = "{username.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
+	@NotBlank(message = "{username.notblank}", groups = {ValidationWithPassword.class, ValidationNoPassword.class })
 	@Size(min = 3, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri")
 	private String username;
 
@@ -36,18 +38,28 @@ public class UtenteDTO {
 	@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
 	private String cognome;
 
+	private Double creditoResiduo;
+
 	private LocalDate dateCreated;
 
 	private StatoUtente stato;
 
 	private Long[] ruoliIds;
-	
-	private Set<AnnuncioDTO> annunciDTO = new HashSet<>();
+
+	private Set<Annuncio> annunci = new HashSet<>();
+
+	private Set<Acquisto> acquisti = new HashSet<>();
 
 	public UtenteDTO() {
 	}
 
-	public UtenteDTO(Long id, String username, String nome, String cognome, StatoUtente stato) {
+	public UtenteDTO(Long id, @NotBlank(message = "{username.notblank}", groups = { ValidationWithPassword.class,
+			ValidationNoPassword.class }) @Size(min = 3, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri") String username,
+			@NotBlank(message = "{nome.notblank}", groups = { ValidationWithPassword.class,
+					ValidationNoPassword.class }) String nome,
+			@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class,
+					ValidationNoPassword.class }) String cognome,
+			StatoUtente stato) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -56,6 +68,42 @@ public class UtenteDTO {
 		this.stato = stato;
 	}
 
+	public UtenteDTO(Long id, @NotBlank(message = "{username.notblank}", groups = { ValidationWithPassword.class,
+			ValidationNoPassword.class }) @Size(min = 3, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri") String username,
+			@NotBlank(message = "{nome.notblank}", groups = { ValidationWithPassword.class,
+					ValidationNoPassword.class }) String nome,
+			@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class,
+					ValidationNoPassword.class }) String cognome,
+			Double creditoResiduo, StatoUtente stato, Set<Annuncio> annunci) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.creditoResiduo = creditoResiduo;
+		this.stato = stato;
+		this.annunci = annunci;
+	}
+
+	public UtenteDTO(Long id, @NotBlank(message = "{username.notblank}", groups = { ValidationWithPassword.class,
+			ValidationNoPassword.class }) @Size(min = 3, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri") String username,
+			@NotBlank(message = "{nome.notblank}", groups = { ValidationWithPassword.class,
+					ValidationNoPassword.class }) String nome,
+			@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class,
+					ValidationNoPassword.class }) String cognome,
+			Double creditoResiduo, StatoUtente stato, Set<Annuncio> annunci, Set<Acquisto> acquisti) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.creditoResiduo = creditoResiduo;
+		this.stato = stato;
+		this.annunci = annunci;
+		this.acquisti = acquisti;
+	}
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -96,6 +144,14 @@ public class UtenteDTO {
 		this.cognome = cognome;
 	}
 
+	public Double getCreditoResiduo() {
+		return creditoResiduo;
+	}
+
+	public void setCreditoResiduo(Double creditoResiduo) {
+		this.creditoResiduo = creditoResiduo;
+	}
+
 	public LocalDate getDateCreated() {
 		return dateCreated;
 	}
@@ -127,14 +183,23 @@ public class UtenteDTO {
 	public void setRuoliIds(Long[] ruoliIds) {
 		this.ruoliIds = ruoliIds;
 	}
-	
-	
-	public Set<AnnuncioDTO> getAnnunciDTO() {
-		return annunciDTO;
+
+	public Set<Annuncio> getAnnunci() {
+		return annunci;
 	}
 
-	public void setAnnunciDTO(Set<AnnuncioDTO> annunciDTO) {
-		this.annunciDTO = annunciDTO;
+	public void setAnnunci(Set<Annuncio> annunci) {
+		this.annunci = annunci;
+	}
+
+	
+	
+	public Set<Acquisto> getAcquisti() {
+		return acquisti;
+	}
+
+	public void setAcquisti(Set<Acquisto> acquisti) {
+		this.acquisti = acquisti;
 	}
 
 	public boolean isAttivo() {
@@ -143,7 +208,7 @@ public class UtenteDTO {
 
 	public Utente buildUtenteModel(boolean includeIdRoles) {
 		Utente result = new Utente(this.id, this.username, this.password, this.nome, this.cognome, this.dateCreated,
-				this.stato);
+				this.stato, this.creditoResiduo, this.annunci, this.acquisti);
 		if (includeIdRoles && ruoliIds != null)
 			result.setRuoli(Arrays.asList(ruoliIds).stream().map(id -> new Ruolo(id)).collect(Collectors.toSet()));
 
@@ -153,7 +218,8 @@ public class UtenteDTO {
 	// niente password...
 	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel, boolean includeRoles) {
 		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getNome(),
-				utenteModel.getCognome(), utenteModel.getStato());
+				utenteModel.getCognome(), utenteModel.getCreditoResiduo(), utenteModel.getStato(),
+				utenteModel.getAnnunci(), utenteModel.getAcquisti());
 
 		if (includeRoles && !utenteModel.getRuoli().isEmpty())
 			result.ruoliIds = utenteModel.getRuoli().stream().map(r -> r.getId()).collect(Collectors.toList())

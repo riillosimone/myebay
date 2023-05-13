@@ -12,6 +12,8 @@ public interface AnnuncioService {
 	
 	public Annuncio caricaSingoloElementoConCategorie(Long id);
 	
+	public Annuncio caricaElementoConUtente(Long id);
+	
 	public void aggiorna (Annuncio annuncioInstance);
 	
 	public void inserisciNuovo (Annuncio annuncioInstance);
