@@ -20,7 +20,7 @@ public class AnnuncioDTO {
 	@NotBlank(message = "{testoAnnuncio.notblank}")
 	private String testoAnnuncio;
 
-	@NotNull(message = "{prezzoaannuncio.notnull}")
+	@NotNull(message = "{prezzoAnnuncio.notnull}")
 	@Min(0)
 	private Double prezzo;
 
@@ -28,7 +28,6 @@ public class AnnuncioDTO {
 
 	private boolean aperto;
 
-	@NotNull(message = "{utenteannuncio.notnull}")
 	private Utente utente;
 
 	private Long[] categorieIds;
@@ -39,7 +38,7 @@ public class AnnuncioDTO {
 
 	public AnnuncioDTO(Long id, @NotBlank(message = "{testoAnnuncio.notblank}") String testoAnnuncio,
 			@NotNull(message = "{prezzoaannuncio.notnull}") @Min(0) Double prezzo, LocalDate dataCreazione,
-			@NotNull(message = "{utenteannuncio.notnull}") Utente utente) {
+			 Utente utente) {
 		super();
 		this.id = id;
 		this.testoAnnuncio = testoAnnuncio;
@@ -50,7 +49,7 @@ public class AnnuncioDTO {
 
 	public AnnuncioDTO(Long id, @NotBlank(message = "{testoAnnuncio.notblank}") String testoAnnuncio,
 			@NotNull(message = "{prezzoaannuncio.notnull}") @Min(0) Double prezzo, LocalDate dataCreazione,
-			boolean aperto, @NotNull(message = "{utenteannuncio.notnull}") Utente utente, Long[] categorieIds) {
+			boolean aperto,Utente utente, Long[] categorieIds) {
 		super();
 		this.id = id;
 		this.testoAnnuncio = testoAnnuncio;
