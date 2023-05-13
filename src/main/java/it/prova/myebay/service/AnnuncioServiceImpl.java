@@ -104,4 +104,11 @@ public class AnnuncioServiceImpl implements AnnuncioService{
 		return annuncioRepository.findByIdConUtente(id).orElse(null);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Annuncio> gestioneAnnunci(String username) {
+		
+		return annuncioRepository.findAllByUtente_Username(username);
+	}
+
 }
