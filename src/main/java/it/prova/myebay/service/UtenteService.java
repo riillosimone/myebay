@@ -34,5 +34,6 @@ public interface UtenteService {
 	
 	public boolean isAutenticato();
 	
+//	public void ricarica (Utente utenteInstance);
 	
 }

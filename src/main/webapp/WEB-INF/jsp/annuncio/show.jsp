@@ -25,6 +25,10 @@
 	<main class="flex-shrink-0">
 		<div class="container">
 
+<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none':'' }" role="alert">
+			  ${errorMessage}
+			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+			</div>
 			<div class='card'>
 				<div class='card-header'>
 					<h5>Visualizza dettaglio</h5>
@@ -73,11 +77,32 @@
 				</div>
 
 				<div class='card-footer'>
-					<a
+					 
+					 <c:choose>
+					<c:when test="${show_annuncio_attr.utente.username != userInfo.username}">
+	
+				<form action="${pageContext.request.contextPath}/acquisto/compra"
+						method="post">
+						<input type="hidden" value="${show_annuncio_attr.id}" name="idAnnuncio"
+							id="idAnnuncio">
+						<button type="submit" name="submit" id="submit"
+							class="btn btn-danger">Compra</button>
+							
+							<a
 						href="${pageContext.request.contextPath}/annuncio"
-						class='btn btn-outline-secondary' style='width: 80px'> <i
+						class='btn btn-outline-secondary' style='width: 80px;'> <i
 						class='fa fa-chevron-left'></i> Back
 					</a>
+							</form>
+							</c:when>
+							<c:otherwise>
+					<a
+						href="${pageContext.request.contextPath}/annuncio"
+						class='btn btn-outline-secondary' style='width: 80px;'> <i
+						class='fa fa-chevron-left'></i> Back
+					</a>
+					</c:otherwise>
+					 </c:choose>
 				</div>
 				<!-- end card -->
 			</div>

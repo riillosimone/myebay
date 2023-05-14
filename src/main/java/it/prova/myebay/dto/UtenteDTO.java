@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import it.prova.myebay.model.Acquisto;
@@ -22,7 +24,7 @@ public class UtenteDTO {
 
 	private Long id;
 
-	@NotBlank(message = "{username.notblank}", groups = {ValidationWithPassword.class, ValidationNoPassword.class })
+	@NotBlank(message = "{username.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
 	@Size(min = 3, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri")
 	private String username;
 
@@ -38,6 +40,7 @@ public class UtenteDTO {
 	@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
 	private String cognome;
 
+	@Min(0)
 	private Double creditoResiduo;
 
 	private LocalDate dateCreated;
@@ -102,8 +105,7 @@ public class UtenteDTO {
 		this.annunci = annunci;
 		this.acquisti = acquisti;
 	}
-	
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -192,8 +194,6 @@ public class UtenteDTO {
 		this.annunci = annunci;
 	}
 
-	
-	
 	public Set<Acquisto> getAcquisti() {
 		return acquisti;
 	}

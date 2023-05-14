@@ -45,6 +45,7 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Utente caricaSingoloUtenteConRuoli(Long id) {
 		return repository.findByIdConRuoli(id).orElse(null);
 	}
@@ -164,5 +165,13 @@ public class UtenteServiceImpl implements UtenteService {
 		utenteInstance.setDateCreated(LocalDate.now());
 		repository.save(utenteInstance);
 	}
+
+//	@Override
+//	@Transactional
+//	public void ricarica(Utente utenteInstance) {
+//		
+//		
+//		repository.ricaricaByUsername(utenteInstance.getCreditoResiduo(),utenteInstance.getId());;
+//	}
 
 }

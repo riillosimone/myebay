@@ -1,6 +1,5 @@
 package it.prova.myebay.web.controller;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,42 +30,43 @@ public class UtenteController {
 
 	@Autowired
 	private UtenteService utenteService;
-	
+
 	@Autowired
 	private RuoloService ruoloService;
-	
+
 	@GetMapping
 	public ModelAndView listAllUtenti() {
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("utente_list_attribute", UtenteDTO.createUtenteDTOListFromModelList(utenteService.listAll(), false));
+		mv.addObject("utente_list_attribute",
+				UtenteDTO.createUtenteDTOListFromModelList(utenteService.listAll(), false));
 		mv.setViewName("utente/list");
 		return mv;
 	}
-	
+
 	@GetMapping("/search")
-	public String searchUtente (Model model) {
-		model.addAttribute("ruoli_totali_attr",RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
+	public String searchUtente(Model model) {
+		model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
 		model.addAttribute("search_utente_attr", new UtenteDTO());
 		return "utente/search";
 	}
-	
+
 	@PostMapping("/list")
-	public String listUtenti (UtenteDTO utenteExample, ModelMap model) {
-		model.addAttribute("utente_list_attribute",UtenteDTO.createUtenteDTOListFromModelList(utenteService.findByExample(utenteExample.buildUtenteModel(true)), true));
+	public String listUtenti(UtenteDTO utenteExample, ModelMap model) {
+		model.addAttribute("utente_list_attribute", UtenteDTO.createUtenteDTOListFromModelList(
+				utenteService.findByExample(utenteExample.buildUtenteModel(true)), true));
 		return "utente/list";
 	}
-	
+
 	@GetMapping("/insert")
 	public String create(Model model) {
 		model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
 		model.addAttribute("insert_utente_attr", new UtenteDTO());
 		return "utente/insert";
 	}
-	
+
 	@PostMapping("/save")
 	public String save(
-			@Validated({	
-					ValidationNoPassword.class }) @ModelAttribute("insert_utente_attr") UtenteDTO utenteDTO,
+			@Validated({ ValidationNoPassword.class }) @ModelAttribute("insert_utente_attr") UtenteDTO utenteDTO,
 			BindingResult result, Model model, RedirectAttributes redirectAttrs) {
 
 		if (!result.hasFieldErrors("password") && !utenteDTO.getPassword().equals(utenteDTO.getConfermaPassword()))
@@ -81,11 +81,11 @@ public class UtenteController {
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/utente";
 	}
-	
+
 	@GetMapping("/edit/{idUtente}")
 	public String edit(@PathVariable(required = true) Long idUtente, Model model) {
 		Utente utenteModel = utenteService.caricaSingoloUtenteConRuoli(idUtente);
-		model.addAttribute("edit_utente_attr", UtenteDTO.buildUtenteDTOFromModel(utenteModel,true));
+		model.addAttribute("edit_utente_attr", UtenteDTO.buildUtenteDTOFromModel(utenteModel, true));
 		model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
 		return "utente/edit";
 	}
@@ -105,38 +105,38 @@ public class UtenteController {
 	}
 
 	@PostMapping("/cambiaStato")
-	public String cambiaStato(@RequestParam(name = "idUtenteForChangingStato", required = true) Long idUtente,RedirectAttributes redirectAttrs) {
+	public String cambiaStato(@RequestParam(name = "idUtenteForChangingStato", required = true) Long idUtente,
+			RedirectAttributes redirectAttrs) {
 		utenteService.changeUserAbilitation(idUtente);
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/utente";
 	}
-	
+
 //	@PostMapping("/cambiaPassword")
 //	public String cambiaPassword(@RequestParam(name = "idUtenteResetPassword", required = true)Long idUtenteResetPassword,RedirectAttributes redirectAttrs) {
 //		utenteService.resetPasswordByAdmin(idUtenteResetPassword);
 //		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 //		return "redirect:/utente";
 //	}
-	
+
 	@GetMapping("/show/{idUtente}")
 	public String show(@PathVariable(required = true) Long idUtente, Model model) {
 		Utente utenteModel = utenteService.caricaSingoloUtenteConRuoli(idUtente);
 		UtenteDTO utenteDto = UtenteDTO.buildUtenteDTOFromModel(utenteModel, true);
-		model.addAttribute("show_utente_attr", utenteDto );
-		model.addAttribute("ruoli_totali_attr",utenteModel.getRuoli());
+		model.addAttribute("show_utente_attr", utenteDto);
+		model.addAttribute("ruoli_totali_attr", utenteModel.getRuoli());
 		return "utente/show";
 	}
-	
+
 	@GetMapping("/registrati")
 	public String registrati(Model model) {
 		model.addAttribute("insert_utente_attr", new UtenteDTO());
 		return "signup";
 	}
-	
+
 	@PostMapping("/signup")
 	public String signup(
-			@Validated({	
-					ValidationNoPassword.class }) @ModelAttribute("insert_utente_attr") UtenteDTO utenteDTO,
+			@Validated({ ValidationNoPassword.class }) @ModelAttribute("insert_utente_attr") UtenteDTO utenteDTO,
 			BindingResult result, Model model, RedirectAttributes redirectAttrs) {
 
 		if (!result.hasFieldErrors("password") && !utenteDTO.getPassword().equals(utenteDTO.getConfermaPassword()))
@@ -147,8 +147,25 @@ public class UtenteController {
 		}
 		utenteService.registrati(utenteDTO.buildUtenteModel(true));
 
-		redirectAttrs.addFlashAttribute("infoMessage", "Sei stato registrato! Attendi che un admin abiliti il tuo account.");
+		redirectAttrs.addFlashAttribute("infoMessage",
+				"Sei stato registrato! Attendi che un admin abiliti il tuo account.");
 		return "redirect:/login";
 	}
-	
+
+//	@GetMapping("/ricarica/{utenteInPagina}")
+//	public String ricarica(@PathVariable(required = true) String utenteInPagina, Model model) {
+//		model.addAttribute("credito_utente_attr",
+//				UtenteDTO.buildUtenteDTOFromModel(utenteService.findByUsername(utenteInPagina),false));
+//		return "utente/ricarica";
+//	}
+//
+//	@PostMapping("/ricarica")
+//	public String ricaricaCredito(@ModelAttribute("credito_utente_attr") UtenteDTO utenteDTO, BindingResult result,
+//			Model model, RedirectAttributes redirectAttrs) {
+//
+//		utenteService.ricarica(utenteDTO.buildUtenteModel(true));
+//
+//		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+//		return "redirect:/home";
+//	}
 }

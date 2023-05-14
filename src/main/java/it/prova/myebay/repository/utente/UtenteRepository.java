@@ -3,6 +3,7 @@ package it.prova.myebay.repository.utente;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -24,4 +25,7 @@ public interface UtenteRepository extends CrudRepository<Utente, Long>, CustomUt
 	@EntityGraph(attributePaths = { "ruoli" })
 	Utente findByUsernameAndPasswordAndStato(String username, String password, StatoUtente stato);
 
+//	@Modifying
+//	@Query("update Utente u set u.creditoResiduo = u.creditoResiduo + ?1 where u.id = ?2")
+//	public void ricaricaByUsername (Double creditoAggiunto,Long id);
 }

@@ -161,10 +161,10 @@ public class AnnuncioController {
 		return "redirect:/annuncio";
 	}
 
-	@GetMapping("/listaannunci/{username}")
-	public String gestioneAnnunci(@PathVariable(required = true) String username, Model model) {
+	@GetMapping("/listaannunci/{utenteInPagina}")
+	public String gestioneAnnunci(@PathVariable(required = true) String utenteInPagina, Model model) {
 		model.addAttribute("annuncio_list_attr",
-				AnnuncioDTO.createAnnuncioDTOListFromModelList(annuncioService.gestioneAnnunci(username), false));
+				AnnuncioDTO.createAnnuncioDTOListFromModelList(annuncioService.gestioneAnnunci(utenteInPagina), false));
 		return "annuncio/list";
 	}
 
