@@ -14,7 +14,7 @@
 	
 	<body class="text-center">
 		<main class="form-signin">
-			<form class="form-signin" name='login' action="login" method='POST' novalidate="novalidate">
+			<form class="form-signin" name='login' action="logincompra" method='POST' novalidate="novalidate">
 		   	
 			   	<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none': ''}" role="alert">
 				  ${errorMessage}

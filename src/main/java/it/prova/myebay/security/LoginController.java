@@ -24,8 +24,19 @@ public class LoginController {
 		if (error != null) {
 			model.addAttribute("errorMessage", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
+		
 		return "login";
 	}
+	
+//	
+//	@RequestMapping(value = "/logincompra", method = {RequestMethod.POST, RequestMethod.GET})
+//	public String loginDaCompra (@RequestParam(value = "error",required = false) String error, Model model, HttpServletRequest request) {
+//		if (error != null) {
+//			model.addAttribute("errorMessage", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+//		}
+//		String referer = request.getHeader("referer");
+//		return referer;
+//	}
 
 	// questo mi serve per fare il display di un messaggio diverso in caso di
 	// account bloccato

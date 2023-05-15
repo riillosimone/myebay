@@ -3,6 +3,7 @@ package it.prova.myebay.dto;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.Min;
@@ -28,7 +29,7 @@ public class AnnuncioDTO {
 
 	private boolean aperto;
 
-	private Utente utente;
+	private UtenteDTO utenteDTO;
 
 	private Long[] categorieIds;
 
@@ -38,25 +39,25 @@ public class AnnuncioDTO {
 
 	public AnnuncioDTO(Long id, @NotBlank(message = "{testoAnnuncio.notblank}") String testoAnnuncio,
 			@NotNull(message = "{prezzoaannuncio.notnull}") @Min(0) Double prezzo, LocalDate dataCreazione,
-			 Utente utente) {
+			 UtenteDTO utenteDTO) {
 		super();
 		this.id = id;
 		this.testoAnnuncio = testoAnnuncio;
 		this.prezzo = prezzo;
 		this.dataCreazione = dataCreazione;
-		this.utente = utente;
+		this.utenteDTO = utenteDTO;
 	}
 
 	public AnnuncioDTO(Long id, @NotBlank(message = "{testoAnnuncio.notblank}") String testoAnnuncio,
 			@NotNull(message = "{prezzoaannuncio.notnull}") @Min(0) Double prezzo, LocalDate dataCreazione,
-			boolean aperto,Utente utente, Long[] categorieIds) {
+			boolean aperto,UtenteDTO utenteDTO, Long[] categorieIds) {
 		super();
 		this.id = id;
 		this.testoAnnuncio = testoAnnuncio;
 		this.prezzo = prezzo;
 		this.dataCreazione = dataCreazione;
 		this.aperto = aperto;
-		this.utente = utente;
+		this.utenteDTO = utenteDTO;
 		this.categorieIds = categorieIds;
 	}
 
@@ -100,12 +101,12 @@ public class AnnuncioDTO {
 		this.aperto = aperto;
 	}
 
-	public Utente getUtente() {
-		return utente;
+	public UtenteDTO getUtenteDTO() {
+		return utenteDTO;
 	}
 
-	public void setUtente(Utente utente) {
-		this.utente = utente;
+	public void setUtenteDTO(UtenteDTO utenteDTO) {
+		this.utenteDTO = utenteDTO;
 	}
 
 	public Long[] getCategorieIds() {
@@ -117,7 +118,7 @@ public class AnnuncioDTO {
 	}
 
 	public Annuncio buildAnnuncioModel(boolean aperto, boolean includesCategories) {
-		Annuncio result = new Annuncio(this.id, this.testoAnnuncio, this.prezzo, this.dataCreazione, this.utente);
+		Annuncio result = new Annuncio(this.id, this.testoAnnuncio, this.prezzo, this.dataCreazione, this.utenteDTO.buildUtenteModel(false));
 		if (includesCategories && categorieIds != null) {
 			result.setCategorie(
 					Arrays.asList(categorieIds).stream().map(id -> new Categoria(id)).collect(Collectors.toSet()));
@@ -131,16 +132,16 @@ public class AnnuncioDTO {
 	public static AnnuncioDTO buildAnnuncioDTOFromModel(Annuncio annuncioModel, boolean includesCategorie) {
 
 		AnnuncioDTO result = new AnnuncioDTO(annuncioModel.getId(), annuncioModel.getTestoAnnuncio(),
-				annuncioModel.getPrezzo(), annuncioModel.getDataCreazione(), annuncioModel.getUtente());
+				annuncioModel.getPrezzo(), annuncioModel.getDataCreazione(),UtenteDTO.buildUtenteDTOFromModel(annuncioModel.getUtente(), false));
 
 		if (includesCategorie && !annuncioModel.getCategorie().isEmpty()) {
 			result.categorieIds = annuncioModel.getCategorie().stream().map(r -> r.getId()).collect(Collectors.toList())
 					.toArray(new Long[] {});
 		}
 		if (annuncioModel.isAperto()) {
-			result.aperto = true;
+			result.setAperto(true);
 		} else {
-			result.aperto = false;
+			result.setAperto(false);
 		}
 		return result;
 	}
@@ -152,4 +153,18 @@ public class AnnuncioDTO {
 		}).collect(Collectors.toList());
 	}
 
+	public static Set<AnnuncioDTO> createAnnuncioDTOSetFromModelList(Set<Annuncio> modelListInput,
+			boolean includesCategorie) {
+		return modelListInput.stream().map(annuncioEntity -> {
+			return AnnuncioDTO.buildAnnuncioDTOFromModel(annuncioEntity, includesCategorie);
+		}).collect(Collectors.toSet());
+	}
+	
+	public static Set<Annuncio> createAnnuncioModelSetFromDTOSet(Set<AnnuncioDTO> dtoSetInput,boolean includesCategorie) {
+		return dtoSetInput.stream().map(dtoEntity -> {
+			return dtoEntity.buildAnnuncioModel(true, includesCategorie);
+		}).collect(Collectors.toSet());
+	}
+		
+	
 }

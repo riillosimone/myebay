@@ -28,7 +28,7 @@ public class AnnuncioServiceImpl implements AnnuncioService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<Annuncio> listAll() {
-		return (List<Annuncio>) annuncioRepository.findAll();
+		return annuncioRepository.findAllByApertoTrue();
 	}
 
 	@Override

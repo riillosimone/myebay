@@ -80,7 +80,7 @@
 										
 										$("#categorieDivId :input").each(function () {
 											$(this).addClass('form-check-input'); 
-										});
+								  		});
 										$("#categorieDivId label").each(function () {
 											$(this).addClass('form-check-label'); 
 										});

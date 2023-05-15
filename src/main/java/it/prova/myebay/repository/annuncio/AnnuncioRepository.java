@@ -19,4 +19,6 @@ public interface AnnuncioRepository extends CrudRepository<Annuncio,Long>, Custo
 	@Query("from Annuncio a join fetch a.utente u where u.username like ?1")
 	List<Annuncio> findAllByUtente_Username(String username);
 	
+	@Query("from Annuncio a where a.aperto = true")
+	List<Annuncio> findAllByApertoTrue();
 	}

@@ -27,6 +27,13 @@ public class SecSecurityConfig  extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
  
+//	@Bean
+//	public AuthenticationSuccessHandler successHandler() {
+//		 SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+//		    handler.setUseReferer(true);
+//		    return handler;
+//	}
+	
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -36,11 +43,12 @@ public class SecSecurityConfig  extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	 http.authorizeRequests()
+    	 http
+    	 .authorizeRequests()
          .antMatchers("/assets/**").permitAll()
-         .antMatchers("/**","/public/**").permitAll()
-         .antMatchers("/login").permitAll()
-         .antMatchers("/annuncio/delete","/annuncio/insert").hasAnyRole("ADMIN", "CLASSIC_USER")
+         .antMatchers("/public/**").permitAll()
+         .antMatchers("/login","/signup").permitAll()
+         .antMatchers("/annuncio/delete/**","/annuncio/insert").hasAnyRole("ADMIN", "CLASSIC_USER")
          .antMatchers("/utente").hasAnyRole("ADMIN", "CLASSIC_USER")
          .antMatchers("/utente/admin").hasRole("ADMIN")
 //         .antMatchers("/anonymous*").anonymous()
@@ -48,10 +56,15 @@ public class SecSecurityConfig  extends WebSecurityConfigurerAdapter {
          .and().exceptionHandling().accessDeniedPage("/accessDenied")
          .and()
          	.formLogin()
+         	
          	.loginPage("/login")
-         	.defaultSuccessUrl("/home",true)
-         	//uso un custom handler perché voglio mettere delle user info in session
+         	
+//         	.defaultSuccessUrl("/home",true)
+//         	.defaultSuccessUrl("/")
+//         	//uso un custom handler perché voglio mettere delle user info in session
          	.successHandler(successHandler)
+//         	.successHandler(successHandler())
+         	
          	.failureUrl("/login?error=true")
          	.permitAll()
          .and()
@@ -64,4 +77,6 @@ public class SecSecurityConfig  extends WebSecurityConfigurerAdapter {
             .disable();
 //         
     }
+    
+    
 }

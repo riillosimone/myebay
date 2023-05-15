@@ -49,9 +49,9 @@ public class UtenteDTO {
 
 	private Long[] ruoliIds;
 
-	private Set<Annuncio> annunci = new HashSet<>();
+	private Set<AnnuncioDTO> annunci = new HashSet<>();
 
-	private Set<Acquisto> acquisti = new HashSet<>();
+	private Set<AcquistoDTO> acquisti = new HashSet<>();
 
 	public UtenteDTO() {
 	}
@@ -77,7 +77,7 @@ public class UtenteDTO {
 					ValidationNoPassword.class }) String nome,
 			@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class,
 					ValidationNoPassword.class }) String cognome,
-			Double creditoResiduo, StatoUtente stato, Set<Annuncio> annunci) {
+			Double creditoResiduo, StatoUtente stato, Set<AnnuncioDTO> annunci) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -94,7 +94,7 @@ public class UtenteDTO {
 					ValidationNoPassword.class }) String nome,
 			@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class,
 					ValidationNoPassword.class }) String cognome,
-			Double creditoResiduo, StatoUtente stato, Set<Annuncio> annunci, Set<Acquisto> acquisti) {
+			Double creditoResiduo, StatoUtente stato, Set<AnnuncioDTO> annunci, Set<AcquistoDTO> acquisti) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -186,19 +186,19 @@ public class UtenteDTO {
 		this.ruoliIds = ruoliIds;
 	}
 
-	public Set<Annuncio> getAnnunci() {
+	public Set<AnnuncioDTO> getAnnunci() {
 		return annunci;
 	}
 
-	public void setAnnunci(Set<Annuncio> annunci) {
+	public void setAnnunci(Set<AnnuncioDTO> annunci) {
 		this.annunci = annunci;
 	}
 
-	public Set<Acquisto> getAcquisti() {
+	public Set<AcquistoDTO> getAcquisti() {
 		return acquisti;
 	}
 
-	public void setAcquisti(Set<Acquisto> acquisti) {
+	public void setAcquisti(Set<AcquistoDTO> acquisti) {
 		this.acquisti = acquisti;
 	}
 
@@ -208,7 +208,7 @@ public class UtenteDTO {
 
 	public Utente buildUtenteModel(boolean includeIdRoles) {
 		Utente result = new Utente(this.id, this.username, this.password, this.nome, this.cognome, this.dateCreated,
-				this.stato, this.creditoResiduo, this.annunci, this.acquisti);
+				this.stato, this.creditoResiduo, AnnuncioDTO.createAnnuncioModelSetFromDTOSet(this.annunci, false), AcquistoDTO.createAcquistoModelSetFromDTOSet(this.acquisti));
 		if (includeIdRoles && ruoliIds != null)
 			result.setRuoli(Arrays.asList(ruoliIds).stream().map(id -> new Ruolo(id)).collect(Collectors.toSet()));
 
@@ -219,7 +219,7 @@ public class UtenteDTO {
 	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel, boolean includeRoles) {
 		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getNome(),
 				utenteModel.getCognome(), utenteModel.getCreditoResiduo(), utenteModel.getStato(),
-				utenteModel.getAnnunci(), utenteModel.getAcquisti());
+				AnnuncioDTO.createAnnuncioDTOSetFromModelList(utenteModel.getAnnunci(), true),AcquistoDTO.createAcquistoDTOSetFromModelSet(utenteModel.getAcquisti()));
 
 		if (includeRoles && !utenteModel.getRuoli().isEmpty())
 			result.ruoliIds = utenteModel.getRuoli().stream().map(r -> r.getId()).collect(Collectors.toList())

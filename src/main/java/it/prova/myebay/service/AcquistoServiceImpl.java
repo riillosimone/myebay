@@ -64,6 +64,9 @@ public class AcquistoServiceImpl implements AcquistoService {
 		}
 		
 		Utente venditore = annuncioFromDb.getUtente();
+		if (venditore.getCreditoResiduo() == null) {
+			venditore.setCreditoResiduo(0D);
+		}
 		
 		Double nuovoCreditoUtenteAcquirente = utenteLoggato.getCreditoResiduo() - annuncioFromDb.getPrezzo();
 		Double nuovoCreditoUtenteVenditore = venditore.getCreditoResiduo() + annuncioFromDb.getPrezzo();
