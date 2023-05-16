@@ -36,4 +36,6 @@ public interface UtenteService {
 	
 	public void ricarica (Double creditoDaRicaricare);
 	
+	public Utente findByUsernameInPagina ();
+	
 }

@@ -4,27 +4,27 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.myebay.exception.AccessDeniedException;
 import it.prova.myebay.exception.AnnuncioChiusoException;
 import it.prova.myebay.exception.UtenteNotFoundException;
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Utente;
 import it.prova.myebay.repository.annuncio.AnnuncioRepository;
 
-
 @Service
-public class AnnuncioServiceImpl implements AnnuncioService{
+public class AnnuncioServiceImpl implements AnnuncioService {
 
-	
 	@Autowired
 	private AnnuncioRepository annuncioRepository;
-	
+
 	@Autowired
 	private UtenteService utenteService;
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Annuncio> listAll() {
@@ -46,19 +46,30 @@ public class AnnuncioServiceImpl implements AnnuncioService{
 	@Override
 	@Transactional
 	public void aggiorna(Annuncio annuncioInstance) {
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Utente utenteFromDb = utenteService.findByUsername(username);
-		
-		if (utenteFromDb == null)
-		throw new UtenteNotFoundException();
-		
-		if (!annuncioInstance.isAperto()) {
-			throw new AnnuncioChiusoException();
-		} 
-		annuncioInstance.setAperto(true);
-		
-		annuncioInstance.setUtente(utenteFromDb);
-		annuncioRepository.save(annuncioInstance);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		Annuncio annuncioFromDb = this.caricaSingoloElemento(annuncioInstance.getId());
+		if (auth != null) {
+
+			String username = auth.getName();
+			Utente utenteFromDb = utenteService.findByUsername(username);
+			if (utenteFromDb == null) {
+				throw new UtenteNotFoundException();
+			}
+
+			Utente proprietario = utenteService.findByUsername(annuncioFromDb.getUtente().getUsername());
+			if (proprietario != utenteFromDb) {
+				throw new AccessDeniedException();
+			}
+			if (!annuncioInstance.isAperto()) {
+				throw new AnnuncioChiusoException();
+			}
+
+			annuncioInstance.setAperto(true);
+			annuncioInstance.setDataCreazione(annuncioFromDb.getDataCreazione());
+			annuncioInstance.setUtente(annuncioFromDb.getUtente());
+			annuncioRepository.save(annuncioInstance);
+		}
 	}
 
 	@Override
@@ -66,10 +77,10 @@ public class AnnuncioServiceImpl implements AnnuncioService{
 	public void inserisciNuovo(Annuncio annuncioInstance) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Utente utenteFromDb = utenteService.findByUsername(username);
-		
+
 		if (utenteFromDb == null)
-		throw new UtenteNotFoundException();
-		
+			throw new UtenteNotFoundException();
+
 		annuncioInstance.setUtente(utenteFromDb);
 		annuncioInstance.setAperto(true);
 		annuncioInstance.setDataCreazione(LocalDate.now());
@@ -81,7 +92,7 @@ public class AnnuncioServiceImpl implements AnnuncioService{
 	public void rimuovi(Long idAnnuncio) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Utente utenteFromDb = utenteService.findByUsername(username);
-		Annuncio annuncioFromDB= this.caricaSingoloElemento(idAnnuncio);
+		Annuncio annuncioFromDB = this.caricaSingoloElemento(idAnnuncio);
 		if (utenteFromDb == null)
 			throw new UtenteNotFoundException();
 		if (!annuncioFromDB.isAperto()) {
@@ -106,8 +117,8 @@ public class AnnuncioServiceImpl implements AnnuncioService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Annuncio> gestioneAnnunci(String username) {
-		
+	public List<Annuncio> gestioneAnnunci() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		return annuncioRepository.findAllByUtente_Username(username);
 	}
 

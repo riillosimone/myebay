@@ -48,8 +48,7 @@
 							<fmt:parseDate value="${show_utente_attr.dateCreated}"
 								pattern="yyyy-MM-dd" var="localDateToBeParsed" type="date" />
 							<fmt:formatDate pattern="dd/MM/yyyy"
-								value="${localDateToBeParsed}" />
-						</dd>
+								value="${localDateToBeParsed}" var="parsedDate" /></dd>
 					</dl>
 
 					<dl class="row">

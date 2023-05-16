@@ -27,10 +27,10 @@
             <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
             <ul class="dropdown-menu" aria-labelledby="dropdown07">
             <sec:authentication property="principal.username" var="utenteInPagina"/>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/home">Home</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/utente/ricarica/${utenteInPagina}">Ricarica credito</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/annuncio/listaannunci/${utenteInPagina}">Gestione annunci</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/acquisto/listaacquisti/${utenteInPagina}">I tuoi acquisti</a></li>
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/secured/home">Home</a></li>
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/utente/ricarica">Ricarica credito</a></li>
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/annuncio/listaannunci">Gestione annunci</a></li>
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/acquisto/listaacquisti">I tuoi acquisti</a></li>
             </ul> 
           </li></c:when>
 		   <c:otherwise> <li class="nav-item">

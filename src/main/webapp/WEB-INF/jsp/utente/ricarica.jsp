@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="it" class="h-100" >
@@ -62,7 +63,8 @@
 							
 								<div class="col-md-6">
 									<label for="creditoDaRicaricare" class="form-label">Ricarica Credito</label>
-										<input type="number" name="creditoDaRicaricare" id="creditoDaRicaricare"  placeholder="Inserire credito da ricaricare"  required>
+										<input type="number" name="creditoDaRicaricare" id="creditoDaRicaricare"  placeholder="Inserire credito da ricaricare" min="1" required>
+										<sec:authentication property="principal.username" var="username"/>
 								</div>
 								
 								 

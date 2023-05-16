@@ -8,7 +8,7 @@ public interface AcquistoService {
 
 	public List<Acquisto> listAll();
 	
-	public List<Acquisto> gestioneAcquisti(String username);
+	public List<Acquisto> gestioneAcquisti();
 	
 	public Acquisto caricaSingoloElemento(Long id);
 	

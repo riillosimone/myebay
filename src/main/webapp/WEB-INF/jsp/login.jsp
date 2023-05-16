@@ -7,6 +7,7 @@
 		<!-- Common imports in pages -->
 	 	<jsp:include page="./header.jsp" />
 	
+
 	
 		 <!-- Custom styles for login -->
 	    <link href="assets/css/signin.css" rel="stylesheet">
@@ -25,7 +26,9 @@
 				</div>
 				
 				
-			  	<img class="mb-4" src="./assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<lottie-player src="https://assets8.lottiefiles.com/private_files/lf30_iraugwwv.json"  background="transparent" speed="1"  style="width: 17em; height: 17em;"  loop autoplay></lottie-player>
+
 				<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 		    	
 		    	

@@ -38,38 +38,54 @@
 				<div class='card-body'>
 
 					<dl class="row">
-						<dt class="col-sm-3 text-right">Descrizione:</dt>
-						<dd class="col-sm-9">${show_acquisto_attr.descrizione}</dd>
+						<dt class="col-sm-3 text-right">Testo annuncio:</dt>
+						<dd class="col-sm-9">${show_annuncio_attr.testoAnnuncio}</dd>
 					</dl>
 
 					<dl class="row">
 						<dt class="col-sm-3 text-right">Prezzo:</dt>
-						<dd class="col-sm-9">${show_acquisto_attr.prezzo}</dd>
+						<dd class="col-sm-9">${show_annuncio_attr.prezzo}</dd>
 					</dl>
 
-					
 					<dl class="row">
-						<dt class="col-sm-3 text-right">Data Acquisto:</dt>
+						<dt class="col-sm-3 text-right">Venditore:</dt>
+						<dd class="col-sm-9">${show_annuncio_attr.utente.nome} ${show_annuncio_attr.utente.cognome} (${show_annuncio_attr.utente.username})</dd>
+					</dl>
+					<dl class="row">
+						<dt class="col-sm-3 text-right">Data Inserimento:</dt>
 						<dd class="col-sm-9">
-							<fmt:parseDate value="${show_acquisto_attr.dataAcquisto}"
+							<fmt:parseDate value="${show_annuncio_attr.dataCreazione}"
 								pattern="yyyy-MM-dd" var="localDateToBeParsed" type="date" />
 							<fmt:formatDate pattern="dd/MM/yyyy"
 								value="${localDateToBeParsed}" />
 						</dd>
 					</dl>
 
-					
+					<dl class="row">
+						<dt class="col-sm-3 text-right">Categorie:</dt>
+
+						<dd class="col-sm-9">
+							<ul>
+								<c:forEach items="${categorie_totali_attr}" var="categorieItem">
+									<li>${categorieItem.descrizione}</li>
+								</c:forEach>
+							</ul>
+						</dd>
+
+					</dl>
 
 				</div>
 
 				<div class='card-footer'>
-					 <sec:authentication property="principal.username" var="utenteInPagina"/>
-					
-					<a
-						href="${pageContext.request.contextPath}/acquisto/listaacquisti"
+				
+				
+							
+							<a
+						href="${pageContext.request.contextPath}/annuncio/listaannunci"
 						class='btn btn-outline-secondary' style='width: 80px;'> <i
 						class='fa fa-chevron-left'></i> Back
 					</a>
+						
 				</div>
 				<!-- end card -->
 			</div>

@@ -8,7 +8,7 @@ public interface AnnuncioService {
 
 	public List<Annuncio> listAll();
 	
-	public List<Annuncio> gestioneAnnunci(String username);
+	public List<Annuncio> gestioneAnnunci();
 	
 	public Annuncio caricaSingoloElemento(Long id);
 	

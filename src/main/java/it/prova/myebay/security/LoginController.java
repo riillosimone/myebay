@@ -75,7 +75,7 @@ public class LoginController {
 	public String accessDenied(Model model) {
 		model.addAttribute("errorMessage",
 				"Attenzione! Non si dispone delle autorizzazioni per accedere alla funzionalità richiesta.");
-		return "index";
+		return "utente/index";
 	}
 
 }

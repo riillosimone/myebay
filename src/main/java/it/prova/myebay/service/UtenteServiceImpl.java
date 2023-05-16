@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import it.prova.myebay.exception.AccessDeniedException;
+import it.prova.myebay.exception.UtenteNotFoundException;
 import it.prova.myebay.model.Ruolo;
 import it.prova.myebay.model.StatoUtente;
 import it.prova.myebay.model.Utente;
@@ -57,13 +59,14 @@ public class UtenteServiceImpl implements UtenteService {
 		Utente utenteReloaded = repository.findById(utenteInstance.getId()).orElse(null);
 		if (utenteReloaded == null)
 			throw new RuntimeException("Elemento non trovato");
+		
 		utenteReloaded.setNome(utenteInstance.getNome());
 		utenteReloaded.setCognome(utenteInstance.getCognome());
 		utenteReloaded.setUsername(utenteInstance.getUsername());
 		utenteReloaded.setRuoli(utenteInstance.getRuoli());
 		repository.save(utenteReloaded);
-
-	}
+		}
+	
 
 	@Override
 	@Transactional
@@ -174,12 +177,21 @@ public class UtenteServiceImpl implements UtenteService {
 
 			Utente utenteInstance = repository.findByUsername(auth.getName()).orElse(null);
 			if (utenteInstance == null)
-				throw new RuntimeException("Elemento non trovato.");
+				throw new UtenteNotFoundException();
 			if (utenteInstance.getCreditoResiduo() == null)
 				utenteInstance.setCreditoResiduo(0D);
+			if (creditoDaRicaricare <0) {
+				throw new RuntimeException();
+			}
 			utenteInstance.setCreditoResiduo(creditoDaRicaricare+utenteInstance.getCreditoResiduo());
 		}
 		
 
+	}
+
+	@Override
+	public Utente findByUsernameInPagina() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return repository.findByUsername(username).orElse(null);
 	}
 }

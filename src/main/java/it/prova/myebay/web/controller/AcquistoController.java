@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.prova.myebay.dto.AcquistoDTO;
 import it.prova.myebay.exception.AnnuncioChiusoException;
 import it.prova.myebay.exception.CreditoInsufficienteException;
+import it.prova.myebay.exception.StessoUtenteException;
 import it.prova.myebay.exception.UtenteNotFoundException;
 import it.prova.myebay.service.AcquistoService;
 
@@ -31,10 +32,10 @@ public class AcquistoController {
 //		return mv;
 //	}
 
-	@GetMapping("/listaacquisti/{utenteInPagina}")
-	public String gestioneAcquisti(@PathVariable(required = true) String utenteInPagina, Model model) {
+	@GetMapping("/listaacquisti")
+	public String gestioneAcquisti( Model model) {
 		model.addAttribute("acquisto_list_attr",
-				AcquistoDTO.createAcquistoDTOListFromModelList(acquistoService.gestioneAcquisti(utenteInPagina)));
+				AcquistoDTO.createAcquistoDTOListFromModelList(acquistoService.gestioneAcquisti()));
 		return "utente/acquisto/list";
 	}
 
@@ -53,9 +54,12 @@ public class AcquistoController {
 		} catch (CreditoInsufficienteException e) {
 			redirectAttrs.addFlashAttribute("errorMessage", "Credito insufficiente.");
 			return "redirect:/public/annuncio/show/" + idAnnuncio;
+		} catch (StessoUtenteException e) {
+			redirectAttrs.addFlashAttribute("errorMessage", "Non puoi acquistare un tuo articolo!");
+			return "redirect:/public/annuncio";
 		}
 
-		return "redirect:/public/annuncio";
+		return "redirect:/";
 	}
 
 	@GetMapping("/show/{idAcquisto}")

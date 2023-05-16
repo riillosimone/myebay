@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.myebay.exception.AnnuncioChiusoException;
 import it.prova.myebay.exception.CreditoInsufficienteException;
+import it.prova.myebay.exception.StessoUtenteException;
 import it.prova.myebay.exception.UtenteNotFoundException;
 import it.prova.myebay.model.Acquisto;
 import it.prova.myebay.model.Annuncio;
@@ -32,8 +33,8 @@ public class AcquistoServiceImpl implements AcquistoService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<Acquisto> gestioneAcquisti(String username) {
-		
+	public List<Acquisto> gestioneAcquisti() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		return acquistoRepository.findAllByUtente_Username(username);
 	}
 
@@ -66,6 +67,9 @@ public class AcquistoServiceImpl implements AcquistoService {
 		Utente venditore = annuncioFromDb.getUtente();
 		if (venditore.getCreditoResiduo() == null) {
 			venditore.setCreditoResiduo(0D);
+		}
+		if (venditore == utenteLoggato) {
+			throw new StessoUtenteException();
 		}
 		
 		Double nuovoCreditoUtenteAcquirente = utenteLoggato.getCreditoResiduo() - annuncioFromDb.getPrezzo();

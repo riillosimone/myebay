@@ -49,7 +49,7 @@ public class SecSecurityConfig  {
          .antMatchers("/login","/signup/**").permitAll()
          .antMatchers("/utente/**","/annuncio/**","/acquisto/**","/ricarica/**").hasAnyRole("ADMIN", "CLASSIC_USER")
          .antMatchers("/secured/**").hasAnyRole("ADMIN", "CLASSIC_USER")
-         .antMatchers("/admin/**").hasRole("ADMIN")
+         .antMatchers("/admin/**").hasAnyRole("ADMIN")
 //         .antMatchers("/anonymous*").anonymous()
          .anyRequest().authenticated()
          .and().exceptionHandling().accessDeniedPage("/accessDenied")
