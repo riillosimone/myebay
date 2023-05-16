@@ -29,7 +29,7 @@ public class AnnuncioDTO {
 
 	private boolean aperto;
 
-	private UtenteDTO utenteDTO;
+	private UtenteDTO utente;
 
 	private Long[] categorieIds;
 
@@ -39,25 +39,25 @@ public class AnnuncioDTO {
 
 	public AnnuncioDTO(Long id, @NotBlank(message = "{testoAnnuncio.notblank}") String testoAnnuncio,
 			@NotNull(message = "{prezzoaannuncio.notnull}") @Min(0) Double prezzo, LocalDate dataCreazione,
-			 UtenteDTO utenteDTO) {
+			 UtenteDTO utente) {
 		super();
 		this.id = id;
 		this.testoAnnuncio = testoAnnuncio;
 		this.prezzo = prezzo;
 		this.dataCreazione = dataCreazione;
-		this.utenteDTO = utenteDTO;
+		this.utente = utente;
 	}
 
 	public AnnuncioDTO(Long id, @NotBlank(message = "{testoAnnuncio.notblank}") String testoAnnuncio,
 			@NotNull(message = "{prezzoaannuncio.notnull}") @Min(0) Double prezzo, LocalDate dataCreazione,
-			boolean aperto,UtenteDTO utenteDTO, Long[] categorieIds) {
+			boolean aperto,UtenteDTO utente, Long[] categorieIds) {
 		super();
 		this.id = id;
 		this.testoAnnuncio = testoAnnuncio;
 		this.prezzo = prezzo;
 		this.dataCreazione = dataCreazione;
 		this.aperto = aperto;
-		this.utenteDTO = utenteDTO;
+		this.utente = utente;
 		this.categorieIds = categorieIds;
 	}
 
@@ -101,12 +101,12 @@ public class AnnuncioDTO {
 		this.aperto = aperto;
 	}
 
-	public UtenteDTO getUtenteDTO() {
-		return utenteDTO;
+	public UtenteDTO getUtente() {
+		return utente;
 	}
 
-	public void setUtenteDTO(UtenteDTO utenteDTO) {
-		this.utenteDTO = utenteDTO;
+	public void setUtente(UtenteDTO utente) {
+		this.utente = utente;
 	}
 
 	public Long[] getCategorieIds() {
@@ -118,7 +118,8 @@ public class AnnuncioDTO {
 	}
 
 	public Annuncio buildAnnuncioModel(boolean aperto, boolean includesCategories) {
-		Annuncio result = new Annuncio(this.id, this.testoAnnuncio, this.prezzo, this.dataCreazione, this.utenteDTO.buildUtenteModel(false));
+		Utente utenteModel = this.utente !=null ? this.utente.buildUtenteModel(true) : null;
+		Annuncio result = new Annuncio(this.id, this.testoAnnuncio, this.prezzo, this.dataCreazione, utenteModel);
 		if (includesCategories && categorieIds != null) {
 			result.setCategorie(
 					Arrays.asList(categorieIds).stream().map(id -> new Categoria(id)).collect(Collectors.toSet()));
@@ -132,7 +133,7 @@ public class AnnuncioDTO {
 	public static AnnuncioDTO buildAnnuncioDTOFromModel(Annuncio annuncioModel, boolean includesCategorie) {
 
 		AnnuncioDTO result = new AnnuncioDTO(annuncioModel.getId(), annuncioModel.getTestoAnnuncio(),
-				annuncioModel.getPrezzo(), annuncioModel.getDataCreazione(),UtenteDTO.buildUtenteDTOFromModel(annuncioModel.getUtente(), false));
+				annuncioModel.getPrezzo(), annuncioModel.getDataCreazione(),UtenteDTO.buildUtenteDTOFromModel(annuncioModel.getUtente(), true));
 
 		if (includesCategorie && !annuncioModel.getCategorie().isEmpty()) {
 			result.categorieIds = annuncioModel.getCategorie().stream().map(r -> r.getId()).collect(Collectors.toList())
@@ -153,18 +154,18 @@ public class AnnuncioDTO {
 		}).collect(Collectors.toList());
 	}
 
-	public static Set<AnnuncioDTO> createAnnuncioDTOSetFromModelList(Set<Annuncio> modelListInput,
-			boolean includesCategorie) {
-		return modelListInput.stream().map(annuncioEntity -> {
-			return AnnuncioDTO.buildAnnuncioDTOFromModel(annuncioEntity, includesCategorie);
-		}).collect(Collectors.toSet());
-	}
+//	public static Set<AnnuncioDTO> createAnnuncioDTOSetFromModelList(Set<Annuncio> modelListInput,
+//			boolean includesCategorie) {
+//		return modelListInput.stream().map(annuncioEntity -> {
+//			return AnnuncioDTO.buildAnnuncioDTOFromModel(annuncioEntity, includesCategorie);
+//		}).collect(Collectors.toSet());
+//	}
 	
-	public static Set<Annuncio> createAnnuncioModelSetFromDTOSet(Set<AnnuncioDTO> dtoSetInput,boolean includesCategorie) {
-		return dtoSetInput.stream().map(dtoEntity -> {
-			return dtoEntity.buildAnnuncioModel(true, includesCategorie);
-		}).collect(Collectors.toSet());
-	}
+//	public  Set<Annuncio> createAnnuncioModelSetFromDTOSet(Set<AnnuncioDTO> dtoSetInput,boolean includesCategorie) {
+//		return dtoSetInput.stream().map(dtoEntity -> {
+//			return dtoEntity.buildAnnuncioModel(true, includesCategorie);
+//		}).collect(Collectors.toSet());
+//	}
 		
 	
 }

@@ -8,13 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import it.prova.myebay.dto.AnnuncioDTO;
 import it.prova.myebay.dto.CategoriaDTO;
 import it.prova.myebay.service.CategoriaService;
-import it.prova.myebay.service.UtenteService;
 
 @Controller
+@RequestMapping(value = "/public")
 public class HomeController {
-
-	@Autowired
-	private UtenteService utenteService;
 
 	@Autowired
 	CategoriaService categoriaService;
@@ -22,13 +19,9 @@ public class HomeController {
 	@RequestMapping(value = { "/home", "" })
 	public String home(Model model) {
 
-		if (utenteService.isAutenticato()) {
-			return "utente/index";
-		} else
-
 		model.addAttribute("categorie_totali_attr",
-					CategoriaDTO.createCategoriaDTOListFromModelList(categoriaService.listAll()));
+				CategoriaDTO.createCategoriaDTOListFromModelList(categoriaService.listAll()));
 		model.addAttribute("search_annuncio_attr", new AnnuncioDTO());
-		return "annuncio/search";
+		return "public/annuncio/search";
 	}
 }

@@ -28,7 +28,7 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
 	private RuoloRepository ruoloRepository;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -166,12 +166,20 @@ public class UtenteServiceImpl implements UtenteService {
 		repository.save(utenteInstance);
 	}
 
-//	@Override
-//	@Transactional
-//	public void ricarica(Utente utenteInstance) {
-//		
-//		
-//		repository.ricaricaByUsername(utenteInstance.getCreditoResiduo(),utenteInstance.getId());;
-//	}
+	@Override
+	@Transactional
+	public void ricarica(Double creditoDaRicaricare) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
 
+			Utente utenteInstance = repository.findByUsername(auth.getName()).orElse(null);
+			if (utenteInstance == null)
+				throw new RuntimeException("Elemento non trovato.");
+			if (utenteInstance.getCreditoResiduo() == null)
+				utenteInstance.setCreditoResiduo(0D);
+			utenteInstance.setCreditoResiduo(creditoDaRicaricare+utenteInstance.getCreditoResiduo());
+		}
+		
+
+	}
 }

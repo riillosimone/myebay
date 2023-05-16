@@ -43,7 +43,7 @@
 			    </div>
 			    <div class='card-body'>
 	
-						<form:form modelAttribute="search_annuncio_attr" method="post" action="${pageContext.request.contextPath}/annuncio/list" class="row g-3">
+						<form:form modelAttribute="search_annuncio_attr" method="post" action="${pageContext.request.contextPath}/public/annuncio/list" class="row g-3">
 						
 							<div class="col-md-6">
 								<label for="testoAnnuncio" class="form-label">Testo Annuncio</label>

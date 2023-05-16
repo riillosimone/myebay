@@ -35,7 +35,7 @@ public class AcquistoController {
 	public String gestioneAcquisti(@PathVariable(required = true) String utenteInPagina, Model model) {
 		model.addAttribute("acquisto_list_attr",
 				AcquistoDTO.createAcquistoDTOListFromModelList(acquistoService.gestioneAcquisti(utenteInPagina)));
-		return "acquisto/list";
+		return "utente/acquisto/list";
 	}
 
 	@PostMapping("/compra")
@@ -46,16 +46,16 @@ public class AcquistoController {
 		} catch (AnnuncioChiusoException e) {
 			redirectAttrs.addFlashAttribute("errorMessage",
 					"Questo articolo è già stato acquistato da un altro utente.");
-			return "redirect:/annuncio";
+			return "redirect:/public/annuncio";
 		} catch (UtenteNotFoundException e) {
 			redirectAttrs.addFlashAttribute("infoMessage", "Prima di acquistare, effettua il login.");
 			return "redirect:/login";
 		} catch (CreditoInsufficienteException e) {
 			redirectAttrs.addFlashAttribute("errorMessage", "Credito insufficiente.");
-			return "redirect:/annuncio/show/" + String.valueOf(idAnnuncio);
+			return "redirect:/public/annuncio/show/" + String.valueOf(idAnnuncio);
 		}
 
-		return "redirect:/annuncio";
+		return "redirect:/public/annuncio";
 	}
 
 	@GetMapping("/show/{idAcquisto}")
@@ -63,7 +63,7 @@ public class AcquistoController {
 
 		model.addAttribute("show_acquisto_attr",
 				AcquistoDTO.buildAcquistoDTOFromModel(acquistoService.caricaSingoloElemento(idAcquisto)));
-		return "acquisto/show";
+		return "utente/acquisto/show";
 	}
 
 }

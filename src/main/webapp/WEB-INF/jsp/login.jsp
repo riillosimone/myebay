@@ -45,10 +45,10 @@
 			    </div>
 			    
 			    <button class="w-50 btn btn-lg btn-primary" type="submit">Sign in</button>
-			    <a class="w-45 btn btn-outline-primary btn-lg" href="${pageContext.request.contextPath}/utente/registrati">Sign up</a>
+			    <a class="w-45 btn btn-outline-primary btn-lg" href="${pageContext.request.contextPath}/signup/registrati">Sign up</a>
 			    </form>
 			    <input type='hidden' name='redirect_to' value='"${header.referer}"'>
-			    <a class="btn btn-outline-secondary btn-md" href="${pageContext.request.contextPath}/home">Torna a MyEbay</a>
+			    <a class="btn btn-outline-secondary btn-md" href="${pageContext.request.contextPath}/public/home">Torna a MyEbay</a>
 			    <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
 			  
 			  

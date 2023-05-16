@@ -10,10 +10,7 @@
 
       <div class="collapse navbar-collapse" id="navbarsExample07">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
-        
-        
-        <sec:authorize access="isAuthenticated()" var="isAutenticato"></sec:authorize>
+          <sec:authorize access="isAuthenticated()" var="isAutenticato"></sec:authorize>
       <c:choose>
    		<c:when test="${isAutenticato}"><li class="nav-item">
           
@@ -25,8 +22,6 @@
           </li>
 			</c:otherwise>
 		</c:choose>
-          
-          
            <c:choose>
    		<c:when test="${isAutenticato}"><li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
@@ -55,22 +50,12 @@
         </ul>
       </div>
       
-      <sec:authorize access="isAuthenticated()" var="isAutenticato"></sec:authorize>
-      <c:choose>
-   		<c:when test="${isAutenticato}"><div class="col-md text-end">   
-	         <p class="navbar-text">Utente: ${userInfo.username }(${userInfo.nome } ${userInfo.cognome })
-    	 <a href="${pageContext.request.contextPath}/executeLogout">Logout</a></p>
-    	 </div></c:when>
-		   <c:otherwise><div class="col-md text-end">  <h6 class="navbar-text">
-		    	 <a href="${pageContext.request.contextPath}/login">Login</a></h6>
-		    	 </div>
-			</c:otherwise>
-		</c:choose>
       
-       
-		    
-	    	
-    
+      
+		   <div class="col-md text-end">  <h6 class="navbar-text">
+    	 <a href="${pageContext.request.contextPath}/login">Login</a></h6>
+    	 </div>
+	    	 
     </div>
   </nav>
   

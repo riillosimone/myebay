@@ -84,6 +84,19 @@ public class Utente {
 	
 
 	public Utente(Long id, String username, String password, String nome, String cognome, LocalDate dateCreated,
+			StatoUtente stato, Double creditoResiduo) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
+		this.creditoResiduo = creditoResiduo;
+	}
+
+	public Utente(Long id, String username, String password, String nome, String cognome, LocalDate dateCreated,
 			StatoUtente stato, Double creditoResiduo, Set<Annuncio> annunci) {
 		super();
 		this.id = id;

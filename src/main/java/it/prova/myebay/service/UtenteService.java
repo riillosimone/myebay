@@ -34,6 +34,6 @@ public interface UtenteService {
 	
 	public boolean isAutenticato();
 	
-//	public void ricarica (Utente utenteInstance);
+	public void ricarica (Double creditoDaRicaricare);
 	
 }

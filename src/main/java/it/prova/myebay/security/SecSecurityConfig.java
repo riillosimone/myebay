@@ -6,15 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 
-@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-public class SecSecurityConfig  extends WebSecurityConfigurerAdapter {
+public class SecSecurityConfig  {
 	
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
@@ -41,22 +40,22 @@ public class SecSecurityConfig  extends WebSecurityConfigurerAdapter {
          //.passwordEncoder(passwordEncoder());
     }
     
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     	 http
     	 .authorizeRequests()
          .antMatchers("/assets/**").permitAll()
          .antMatchers("/public/**").permitAll()
-         .antMatchers("/login","/signup").permitAll()
-         .antMatchers("/annuncio/delete/**","/annuncio/insert").hasAnyRole("ADMIN", "CLASSIC_USER")
-         .antMatchers("/utente").hasAnyRole("ADMIN", "CLASSIC_USER")
-         .antMatchers("/utente/admin").hasRole("ADMIN")
+         .antMatchers("/login","/signup/**").permitAll()
+         .antMatchers("/utente/**","/annuncio/**","/acquisto/**").hasAnyRole("ADMIN", "CLASSIC_USER")
+         .antMatchers("/secured/**").hasAnyRole("ADMIN", "CLASSIC_USER")
+         .antMatchers("/admin/**").hasRole("ADMIN")
 //         .antMatchers("/anonymous*").anonymous()
          .anyRequest().authenticated()
          .and().exceptionHandling().accessDeniedPage("/accessDenied")
          .and()
          	.formLogin()
-         	
+         		
          	.loginPage("/login")
          	
 //         	.defaultSuccessUrl("/home",true)
@@ -75,7 +74,7 @@ public class SecSecurityConfig  extends WebSecurityConfigurerAdapter {
          .and()
             .csrf()
             .disable();
-//         
+         return http.build();
     }
     
     

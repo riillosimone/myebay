@@ -38,15 +38,23 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 		utenteParziale.setUsername(utenteFromDb.getUsername());
 		request.getSession().setAttribute("userInfo", utenteParziale);
 //		
-		if (request.getSession() != null) {
-			SavedRequest savedRequest = (SavedRequest) request.getSession()
-					.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+		SavedRequest savedRequest = (SavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+		if (savedRequest != null) {
 			String savedRequestUrl = savedRequest.getRedirectUrl();
 			response.sendRedirect(savedRequestUrl);
 			return;
 		}
+//			SavedRequest savedRequest = new DefaultSavedRequest(request, new PortResolverImpl());
+//
+//	        request.getSession().setAttribute("SPRING_SECURITY_SAVED_REQUEST", savedRequest);
+//	        String savedRequestUrl = savedRequest.getRedirectUrl();
+//			response.sendRedirect(savedRequestUrl);
+//			return;
+//			response.sendRedirect(request.getHeader("referer"));
+//			response.sendRedirect(HttpHeaders.REFERER);
 
-		response.sendRedirect("home");
+		
+		response.sendRedirect("secured/home");
 
 	}
 

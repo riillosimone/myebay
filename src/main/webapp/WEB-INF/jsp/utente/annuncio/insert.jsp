@@ -1,4 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!doctype html>
 <html lang="it" class="h-100" >
@@ -12,7 +14,7 @@
 		    }
 		</style>
 	   
-	   <title>Modifica Elemento</title>
+	   <title>Inserisci Nuovo Elemento</title>
 	 </head>
 	   <body class="d-flex flex-column h-100">
 	   
@@ -25,7 +27,7 @@
 			  <div class="container">
 			  
 			  		<%-- se l'attributo in request ha errori --%>
-					<spring:hasBindErrors  name="edit_utente_attr">
+					<spring:hasBindErrors  name="insert_annuncio_attr">
 						<%-- alert errori --%>
 						<div class="alert alert-danger " role="alert">
 							Attenzione!! Sono presenti errori di validazione
@@ -46,46 +48,40 @@
 							<h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori</h6>
 		
 		
-							<form:form modelAttribute="edit_utente_attr" method="post" action="${pageContext.request.contextPath}/utente/update" novalidate="novalidate" class="row g-3">
-								<input type="hidden" name="id" value="${edit_utente_attr.id }">
+							<form:form modelAttribute="insert_annuncio_attr" method="post" action="${pageContext.request.contextPath}/annuncio/save" novalidate="novalidate" class="row g-3">
+					
 							
 								<div class="col-md-6">
-									<label for="nome" class="form-label">Nome <span class="text-danger">*</span></label>
-									<spring:bind path="nome">
-										<input type="text" name="nome" id="nome" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il nome" value="${edit_utente_attr.nome }" required>
+									<label for="testoAnnuncio" class="form-label">Testo annuncio <span class="text-danger">*</span></label>
+									<spring:bind path="testoAnnuncio">
+										<input type="text" name="testoAnnuncio" id="testoAnnuncio" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il testo dell'annuncio" value="${insert_annuncio_attr.testoAnnuncio }" required>
 									</spring:bind>
-									<form:errors  path="nome" cssClass="error_field" />
+									<form:errors  path="testoAnnuncio" cssClass="error_field" />
 								</div>
 								
 								<div class="col-md-6">
-									<label for="cognome" class="form-label">Cognome <span class="text-danger">*</span></label>
-									<spring:bind path="cognome">
-										<input type="text" name="cognome" id="cognome" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il cognome" value="${edit_utente_attr.cognome }" required>
+									<label for="prezzo" class="form-label">Prezzo (€)<span class="text-danger">*</span></label>
+									<spring:bind path="prezzo">
+										<input type="number" name="prezzo" id="prezzo" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il prezzo" value="${insert_annuncio_attr.prezzo }" required>
 									</spring:bind>
-									<form:errors  path="cognome" cssClass="error_field" />
+									<form:errors  path="prezzo" cssClass="error_field" />
 								</div>
-								<div class="col-md-6">
-									<label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-									<spring:bind path="username">
-										<input type="text" class="form-control ${status.error ? 'is-invalid' : ''}" name="username" id="username" placeholder="Inserire Username" value="${edit_utente_attr.username }" required>
-									</spring:bind>
-									<form:errors  path="username" cssClass="error_field" />
-								</div>
-								 
+								
+								
 								
 								<%--  checkbox ruoli 	--%>
 								<%-- facendolo con i tag di spring purtroppo viene un po' spaginato quindi aggiungo class 'a mano'	--%>
-								<div class="col-md-6 form-check" id="ruoliDivId">
-									<p>Ruoli:</p>
-									<form:checkboxes itemValue="id" itemLabel="codice"  element="div class='form-check'" items="${ruoli_totali_attr}" path="ruoliIds" />
+								<div class="col-md-6 form-check" id="categorieDivId">
+									<p>Categoria:</p>
+									<form:checkboxes itemValue="id" itemLabel="descrizione"  element="div class='form-check'" items="${categorie_totali_attr}" path="categorieIds" />
 								</div>
 								<script>
 									$(document).ready(function(){
 										
-										$("#ruoliDivId :input").each(function () {
+										$("#categorieDivId :input").each(function () {
 											$(this).addClass('form-check-input'); 
-										});
-										$("#ruoliDivId label").each(function () {
+								  		});
+										$("#categorieDivId label").each(function () {
 											$(this).addClass('form-check-label'); 
 										});
 										
@@ -97,7 +93,6 @@
 								<div class="col-12">
 									<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
 									<input class="btn btn-outline-warning" type="reset" value="Ripulisci">
-									<a class="btn btn-outline-secondary ml-2" href="${pageContext.request.contextPath }/utente">Torna alla Lista</a>
 								</div>
 		
 						</form:form>

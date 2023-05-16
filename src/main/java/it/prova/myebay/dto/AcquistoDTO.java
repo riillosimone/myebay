@@ -2,10 +2,10 @@ package it.prova.myebay.dto;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.prova.myebay.model.Acquisto;
+import it.prova.myebay.model.Utente;
 
 public class AcquistoDTO {
 
@@ -18,15 +18,15 @@ public class AcquistoDTO {
 	
 	private Double prezzo;
 	
-	private UtenteDTO utenteDTO;
+	private UtenteDTO utente;
 
-	public AcquistoDTO(Long id, String descrizione, LocalDate dataAcquisto, Double prezzo, UtenteDTO utenteDTO) {
+	public AcquistoDTO(Long id, String descrizione, LocalDate dataAcquisto, Double prezzo, UtenteDTO utente) {
 		super();
 		this.id = id;
 		this.descrizione = descrizione;
 		this.dataAcquisto = dataAcquisto;
 		this.prezzo = prezzo;
-		this.utenteDTO = utenteDTO;
+		this.utente = utente;
 	}
 
 	public AcquistoDTO(Long id, String descrizione, LocalDate dataAcquisto, Double prezzo) {
@@ -73,16 +73,17 @@ public class AcquistoDTO {
 		this.prezzo = prezzo;
 	}
 
-	public UtenteDTO getUtenteDTO() {
-		return utenteDTO;
+	public UtenteDTO getUtente() {
+		return utente;
 	}
 
-	public void setUtenteDTO(UtenteDTO utenteDTO) {
-		this.utenteDTO = utenteDTO;
+	public void setUtente(UtenteDTO utente) {
+		this.utente = utente;
 	}
 	
 	public Acquisto buildAcquistoModel () {
-		Acquisto result = new Acquisto(this.id, this.descrizione, this.dataAcquisto, this.prezzo, this.utenteDTO.buildUtenteModel(false));
+		Utente utenteModel = this.utente !=null ? this.utente.buildUtenteModel(true) : null;
+		Acquisto result = new Acquisto(this.id, this.descrizione, this.dataAcquisto, this.prezzo, utenteModel);
 		return result;
 	}
 	
@@ -99,17 +100,17 @@ public class AcquistoDTO {
 		}).collect(Collectors.toList());
 	}
 	
-	public static Set<AcquistoDTO> createAcquistoDTOSetFromModelSet(Set<Acquisto> modelListInput) {
-		return modelListInput.stream().map(acquistoEntity -> {
-			return AcquistoDTO.buildAcquistoDTOFromModel(acquistoEntity);
-		}).collect(Collectors.toSet());
-	}
+//	public static Set<AcquistoDTO> createAcquistoDTOSetFromModelSet(Set<Acquisto> modelListInput) {
+//		return modelListInput.stream().map(acquistoEntity -> {
+//			return AcquistoDTO.buildAcquistoDTOFromModel(acquistoEntity);
+//		}).collect(Collectors.toSet());
+//	}
 	
-	
-	public static Set<Acquisto> createAcquistoModelSetFromDTOSet(Set<AcquistoDTO> dtoSetInput) {
-		return dtoSetInput.stream().map(dtoEntity -> {
-			return dtoEntity.buildAcquistoModel();
-		}).collect(Collectors.toSet());
-	}
+//	
+//	public static Set<Acquisto> createAcquistoModelSetFromDTOSet(Set<AcquistoDTO> dtoSetInput) {
+//		return dtoSetInput.stream().map(dtoEntity -> {
+//			return dtoEntity.buildAcquistoModel();
+//		}).collect(Collectors.toSet());
+//	}
 	
 }

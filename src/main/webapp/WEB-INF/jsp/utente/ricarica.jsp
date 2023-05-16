@@ -44,12 +44,11 @@
 						<dd class="col-sm-9">${credito_utente_attr.creditoResiduo}</dd>
 					</dl>
 		
-							<form:form modelAttribute="credito_utente_attr" method="post" action="${pageContext.request.contextPath}/utente/ricarica" novalidate="novalidate" class="row g-3">
-								<input type="hidden" name="idUtente" value="${credito_utente_attr.id }">
+							<form method="post" action="${pageContext.request.contextPath}/admin/ricarica" novalidate="novalidate" class="row g-3">
 							
 								<div class="col-md-6">
-									<label for="creditoResiduo" class="form-label">Ricarica Credito</label>
-										<input type="number" name="creditoResiduo" id="creditoResiduo" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire credito da ricaricare" value="" required>
+									<label for="creditoDaRicaricare" class="form-label">Ricarica Credito</label>
+										<input type="number" name="creditoDaRicaricare" id="creditoDaRicaricare"  placeholder="Inserire credito da ricaricare"  required>
 								</div>
 								
 								 
@@ -60,10 +59,10 @@
 								<div class="col-12">
 									<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
 									<input class="btn btn-outline-warning" type="reset" value="Ripulisci">
-									<a class="btn btn-outline-secondary ml-2" href="${pageContext.request.contextPath }/utente">Torna alla Lista</a>
+									<a class="btn btn-outline-secondary ml-2" href="${pageContext.request.contextPath }/secured/home">Back</a>
 								</div>
 		
-						</form:form>
+						</form>
   
 				    
 				    

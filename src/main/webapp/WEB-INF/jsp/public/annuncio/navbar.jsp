@@ -10,10 +10,7 @@
 
       <div class="collapse navbar-collapse" id="navbarsExample07">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
-        
-        
-        <sec:authorize access="isAuthenticated()" var="isAutenticato"></sec:authorize>
+         <sec:authorize access="isAuthenticated()" var="isAutenticato"></sec:authorize>
       <c:choose>
    		<c:when test="${isAutenticato}"><li class="nav-item">
           
@@ -25,9 +22,7 @@
           </li>
 			</c:otherwise>
 		</c:choose>
-          
-          
-           <c:choose>
+          <c:choose>
    		<c:when test="${isAutenticato}"><li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
             <ul class="dropdown-menu" aria-labelledby="dropdown07">
@@ -39,10 +34,11 @@
             </ul> 
           </li></c:when>
 		   <c:otherwise> <li class="nav-item">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/public/annuncio/search">Cerca annunci</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/annuncio/search">Cerca annunci</a>
           </li>
 			</c:otherwise>
 		</c:choose>
+          
            <sec:authorize access="hasRole('ADMIN')">
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
@@ -55,6 +51,7 @@
         </ul>
       </div>
       
+      
       <sec:authorize access="isAuthenticated()" var="isAutenticato"></sec:authorize>
       <c:choose>
    		<c:when test="${isAutenticato}"><div class="col-md text-end">   
@@ -66,11 +63,6 @@
 		    	 </div>
 			</c:otherwise>
 		</c:choose>
-      
-       
-		    
-	    	
-    
     </div>
   </nav>
   

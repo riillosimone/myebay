@@ -25,7 +25,7 @@ import it.prova.myebay.service.UtenteService;
 import it.prova.myebay.validation.ValidationNoPassword;
 
 @Controller
-@RequestMapping(value = "/utente")
+@RequestMapping(value = "/admin")
 public class UtenteController {
 
 	@Autowired
@@ -39,7 +39,7 @@ public class UtenteController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("utente_list_attribute",
 				UtenteDTO.createUtenteDTOListFromModelList(utenteService.listAll(), false));
-		mv.setViewName("utente/list");
+		mv.setViewName("admin/list");
 		return mv;
 	}
 
@@ -47,21 +47,21 @@ public class UtenteController {
 	public String searchUtente(Model model) {
 		model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
 		model.addAttribute("search_utente_attr", new UtenteDTO());
-		return "utente/search";
+		return "admin/search";
 	}
 
 	@PostMapping("/list")
 	public String listUtenti(UtenteDTO utenteExample, ModelMap model) {
 		model.addAttribute("utente_list_attribute", UtenteDTO.createUtenteDTOListFromModelList(
 				utenteService.findByExample(utenteExample.buildUtenteModel(true)), true));
-		return "utente/list";
+		return "admin/list";
 	}
 
 	@GetMapping("/insert")
 	public String create(Model model) {
 		model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
 		model.addAttribute("insert_utente_attr", new UtenteDTO());
-		return "utente/insert";
+		return "admin/insert";
 	}
 
 	@PostMapping("/save")
@@ -74,12 +74,12 @@ public class UtenteController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
-			return "utente/insert";
+			return "admin/insert";
 		}
 		utenteService.inserisciNuovo(utenteDTO.buildUtenteModel(true));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
-		return "redirect:/utente";
+		return "redirect:/admin";
 	}
 
 	@GetMapping("/edit/{idUtente}")
@@ -87,7 +87,7 @@ public class UtenteController {
 		Utente utenteModel = utenteService.caricaSingoloUtenteConRuoli(idUtente);
 		model.addAttribute("edit_utente_attr", UtenteDTO.buildUtenteDTOFromModel(utenteModel, true));
 		model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
-		return "utente/edit";
+		return "admin/edit";
 	}
 
 	@PostMapping("/update")
@@ -96,12 +96,12 @@ public class UtenteController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
-			return "utente/edit";
+			return "admin/edit";
 		}
 		utenteService.aggiorna(utenteDTO.buildUtenteModel(true));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
-		return "redirect:/utente";
+		return "redirect:/admin";
 	}
 
 	@PostMapping("/cambiaStato")
@@ -109,7 +109,7 @@ public class UtenteController {
 			RedirectAttributes redirectAttrs) {
 		utenteService.changeUserAbilitation(idUtente);
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
-		return "redirect:/utente";
+		return "redirect:/admin";
 	}
 
 //	@PostMapping("/cambiaPassword")
@@ -125,47 +125,10 @@ public class UtenteController {
 		UtenteDTO utenteDto = UtenteDTO.buildUtenteDTOFromModel(utenteModel, true);
 		model.addAttribute("show_utente_attr", utenteDto);
 		model.addAttribute("ruoli_totali_attr", utenteModel.getRuoli());
-		return "utente/show";
+		return "admin/show";
 	}
 
-	@GetMapping("/registrati")
-	public String registrati(Model model) {
-		model.addAttribute("insert_utente_attr", new UtenteDTO());
-		return "signup";
-	}
 
-	@PostMapping("/signup")
-	public String signup(
-			@Validated({ ValidationNoPassword.class }) @ModelAttribute("insert_utente_attr") UtenteDTO utenteDTO,
-			BindingResult result, Model model, RedirectAttributes redirectAttrs) {
 
-		if (!result.hasFieldErrors("password") && !utenteDTO.getPassword().equals(utenteDTO.getConfermaPassword()))
-			result.rejectValue("confermaPassword", "password.diverse");
-
-		if (result.hasErrors()) {
-			return "utente/insert";
-		}
-		utenteService.registrati(utenteDTO.buildUtenteModel(true));
-
-		redirectAttrs.addFlashAttribute("infoMessage",
-				"Sei stato registrato! Attendi che un admin abiliti il tuo account.");
-		return "redirect:/login";
-	}
-
-//	@GetMapping("/ricarica/{utenteInPagina}")
-//	public String ricarica(@PathVariable(required = true) String utenteInPagina, Model model) {
-//		model.addAttribute("credito_utente_attr",
-//				UtenteDTO.buildUtenteDTOFromModel(utenteService.findByUsername(utenteInPagina),false));
-//		return "utente/ricarica";
-//	}
-//
-//	@PostMapping("/ricarica")
-//	public String ricaricaCredito(@ModelAttribute("credito_utente_attr") UtenteDTO utenteDTO, BindingResult result,
-//			Model model, RedirectAttributes redirectAttrs) {
-//
-//		utenteService.ricarica(utenteDTO.buildUtenteModel(true));
-//
-//		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
-//		return "redirect:/home";
-//	}
+	
 }
