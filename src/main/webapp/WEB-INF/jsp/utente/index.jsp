@@ -67,7 +67,14 @@
 			    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
 			      <div class="feature col">
 			        <div class="feature-icon bg-primary bg-gradient">
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
+			        <a href="${pageContext.request.contextPath}/acquisto/listaacquisti/${utenteInPagina}">
+			          <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/slkvcfos.json"
+    trigger="hover"
+    colors="primary:#ffffff,secondary:#ffffff"
+    style="width:1.5em;height:1.5em">
+</lord-icon></a>
 			        </div>
 			        <h2>Visualizza acquisti effettuati</h2>
 			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
@@ -78,7 +85,10 @@
 			      </div>
 			      <div class="feature col">
 			        <div class="feature-icon bg-primary bg-gradient">
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
+			         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+  <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+  <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+</svg>
 			        </div>
 			        <h2>Gestione Annunci</h2>
 			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
@@ -91,7 +101,14 @@
 			      </div>
 			      <div class="feature col">
 			        <div class="feature-icon bg-primary bg-gradient">
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
+			        <a href="${pageContext.request.contextPath}/utente/ricarica/${utenteInPagina}">
+			          <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/yeallgsa.json"
+    trigger="hover"
+    colors="primary:#ffffff,secondary:#ffffff"
+    style="width:1.5em;height:1.5em">
+</lord-icon></a>
 			        </div>
 			        <h2>Ricarica credito</h2>
 			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>

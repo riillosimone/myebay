@@ -34,7 +34,7 @@
             </ul> 
           </li></c:when>
 		   <c:otherwise> <li class="nav-item">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/annuncio/search">Cerca annunci</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/public/annuncio/search">Cerca annunci</a>
           </li>
 			</c:otherwise>
 		</c:choose>

@@ -38,6 +38,7 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 		utenteParziale.setUsername(utenteFromDb.getUsername());
 		request.getSession().setAttribute("userInfo", utenteParziale);
 //		
+		//dopo utente parziale
 		SavedRequest savedRequest = (SavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 		if (savedRequest != null) {
 			String savedRequestUrl = savedRequest.getRedirectUrl();

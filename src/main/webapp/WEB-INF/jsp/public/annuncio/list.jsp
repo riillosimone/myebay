@@ -64,7 +64,7 @@
 												value="${localDateToBeParsed}" /></td>
 										<td>
 										<c:choose>
-												<c:when test="${!isAutenticato}"><a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/public/annuncio/show/${annuncioItem.id }">Visualizza</a></c:when>
+												<c:when test="${!isAutenticato || annuncioItem.aperto == false}"><a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/public/annuncio/show/${annuncioItem.id }">Visualizza</a></c:when>
 												<c:otherwise>
 												<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/public/annuncio/show/${annuncioItem.id }">Visualizza</a>
 												<sec:authentication property="principal.username" var="utenteInPagina"/>
