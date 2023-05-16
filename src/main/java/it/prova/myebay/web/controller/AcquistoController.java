@@ -52,7 +52,7 @@ public class AcquistoController {
 			return "redirect:/login";
 		} catch (CreditoInsufficienteException e) {
 			redirectAttrs.addFlashAttribute("errorMessage", "Credito insufficiente.");
-			return "redirect:/public/annuncio/show/" + String.valueOf(idAnnuncio);
+			return "redirect:/public/annuncio/show/" + idAnnuncio;
 		}
 
 		return "redirect:/public/annuncio";

@@ -47,7 +47,7 @@ public class SecSecurityConfig  {
          .antMatchers("/assets/**").permitAll()
          .antMatchers("/public/**").permitAll()
          .antMatchers("/login","/signup/**").permitAll()
-         .antMatchers("/utente/**","/annuncio/**","/acquisto/**").hasAnyRole("ADMIN", "CLASSIC_USER")
+         .antMatchers("/utente/**","/annuncio/**","/acquisto/**","/ricarica/**").hasAnyRole("ADMIN", "CLASSIC_USER")
          .antMatchers("/secured/**").hasAnyRole("ADMIN", "CLASSIC_USER")
          .antMatchers("/admin/**").hasRole("ADMIN")
 //         .antMatchers("/anonymous*").anonymous()

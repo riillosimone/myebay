@@ -1,5 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="it" class="h-100" >
 	 <head>
@@ -41,10 +43,18 @@
 		
 							<dl class="row">
 						<dt class="col-sm-3 text-right">Credito Residuo:</dt>
-						<dd class="col-sm-9">${credito_utente_attr.creditoResiduo}</dd>
+						<dd class="col-sm-9">
+						<c:choose>
+						<c:when test="${credito_utente_attr.creditoResiduo == null}"> 0.0 €</c:when>
+						
+						<c:otherwise>
+						${credito_utente_attr.creditoResiduo} €
+						</c:otherwise>
+						</c:choose>
+						</dd>
 					</dl>
 		
-							<form method="post" action="${pageContext.request.contextPath}/admin/ricarica" novalidate="novalidate" class="row g-3">
+							<form method="post" action="${pageContext.request.contextPath}/utente/ricarica" novalidate="novalidate" class="row g-3">
 							
 								<div class="col-md-6">
 									<label for="creditoDaRicaricare" class="form-label">Ricarica Credito</label>
